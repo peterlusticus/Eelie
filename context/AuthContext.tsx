@@ -33,7 +33,7 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
     return () => unsubscribe();
   }, []);
 
-  const signUp = async (email: string, password: string, name: string, prename: string, birthday: string, address_formatted: string, place_id: string) => {
+  const signUpAsTenant = async (email: string, password: string, name: string, prename: string, birthday: string, address_formatted: string, place_id: string, quest1: string, quest2: string, quest3: string) => {
     await createUserWithEmailAndPassword(auth, email, password);
     const uid = auth.currentUser == null ? "" : auth.currentUser.uid;
 
@@ -56,7 +56,40 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
       Vorname: prename,
       Geburtsdatum: birthday,
       Adresse_Formatiert: address_formatted,
-      Adresse_GooglePlaceId: place_id
+      Adresse_GooglePlaceId: place_id,
+      Frage1: quest1,
+      Frage2: quest2,
+      Frage3: quest3,
+      Landlord: false
+    });
+    return;
+  };
+
+  const signUpAsLandlord = async (email: string, password: string, name: string, prename: string, birthday: string, address_formatted: string, place_id: string) => {
+    await createUserWithEmailAndPassword(auth, email, password);
+    const uid = auth.currentUser == null ? "" : auth.currentUser.uid;
+
+    //bestätigungsmail senden
+    var templateParams = {
+      Name: name,
+      Vorname: prename,
+      Email: email
+    };
+    send('service_hs19w57', 'template_p3z83mn', templateParams, '5fMJGYQBc902cFst3')
+      .then((result: any) => {
+        console.log(result.text);
+      }, (error: any) => {
+        console.log(error.text);
+      });
+
+    set(ref(db, 'users/' + uid), {
+      Name: name,
+      Email: email,
+      Vorname: prename,
+      Geburtsdatum: birthday,
+      Adresse_Formatiert: address_formatted,
+      Adresse_GooglePlaceId: place_id,
+      Landlord: true
     });
     return;
   };
@@ -87,7 +120,7 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
   }
 
   return (
-    <AuthContext.Provider value={{ user, signUp, logIn, logOut, forgotPassword, changeUserData }}>
+    <AuthContext.Provider value={{ user, signUpAsTenant, signUpAsLandlord, logIn, logOut, forgotPassword, changeUserData }}>
       {loading ? null : children}
     </AuthContext.Provider>
   );

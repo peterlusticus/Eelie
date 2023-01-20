@@ -3,7 +3,8 @@ import { FormProvider, useForm } from "react-hook-form";
 import { useAuth } from "../context/AuthContext"
 import { useRouter } from "next/router";
 import { toast } from 'react-toastify';
-import SignupPage from "./signup";
+import SignupPageTenant from "./signuptenant";
+import SignupPageLandlord from "./signuplandlord";
 
 
 interface LoginType {
@@ -14,9 +15,16 @@ interface LoginType {
 const Login = (props: any) => {
     const methods = useForm<LoginType>({ mode: "onBlur" });
 
-    const [login, setLogin] = useState(true)
-    const updateSignUp = () => {
-        setLogin(!login);
+    const [showLogin, setShowLogin] = useState(true)
+    const [showLandlord, setShowLandlord] = useState(true)
+
+    const changeToSignup = () => {
+        setShowLogin(!showLogin);
+    }
+
+    const changeToSignupLandlord = () => {
+        setShowLogin(!showLogin);
+        setShowLandlord(!showLandlord);
     }
 
     const {
@@ -42,7 +50,7 @@ const Login = (props: any) => {
     };
     return (
         <div className="flex w-full justify-center">
-            {login ?
+            {showLogin ?
                 <FormProvider {...methods}>
                     <form action="" onSubmit={handleSubmit(onSubmit)}>
                         <div className="space-y-4">
@@ -71,8 +79,11 @@ const Login = (props: any) => {
                                 <button type="submit" id="btnLogin" className='button-primary'>
                                     Anmelden &rarr;
                                 </button>
-                                <button type="button" id="btnLogin" onClick={updateSignUp} className='button-secondary'>
-                                    Registrieren &rarr;
+                                <button type="button" id="btnLogin" onClick={changeToSignup} className='button-secondary'>
+                                    Als Vermieter Registrieren &rarr;
+                                </button>
+                                <button type="button" id="btnLogin" onClick={changeToSignupLandlord} className='button-secondary'>
+                                    Als Mieter Registrieren &rarr;
                                 </button>
                             </div>
                         </div>
@@ -81,10 +92,22 @@ const Login = (props: any) => {
 
                 :
 
-                <div className="flex flex-col space-y-2">
-                    <SignupPage site={props.site} />
-                    {login ? "" : <button className="button-secondary w-full" onClick={updateSignUp}>Login &rarr;</button>}
-                </div>}
+                <div>
+                    {showLandlord ?
+                        <div className="flex flex-col space-y-2">
+                            <SignupPageTenant site={props.site} />
+                            {showLogin ? "" : <button className="button-secondary w-full" onClick={changeToSignupLandlord}>Login &rarr;</button>}
+                        </div>
+
+                        :
+
+                        <div className="flex flex-col space-y-2">
+                            <SignupPageLandlord site={props.site} />
+                            {showLogin ? "" : <button className="button-secondary w-full" onClick={changeToSignup}>Login &rarr;</button>}
+                        </div>}
+                </div>
+
+            }
         </div>
     );
 };

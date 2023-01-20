@@ -4,8 +4,8 @@ import { useAuth } from "../context/AuthContext"
 import { useRouter } from "next/router";
 import Autocomplete from "react-google-autocomplete";
 import dynamic from 'next/dynamic';
-import { setBookingValue } from "../pages/bookings/new";
 import { toast } from "react-toastify";
+import Textarea from "./bookings/textarea";
 const ReactPasswordChecklist = dynamic(() => import('react-password-checklist'), {
     ssr: false,
 });
@@ -17,9 +17,11 @@ interface SignupType {
     birthday: string;
     password: string;
     password_confirm: string;
-
+    quest1: string;
+    quest2: string;
+    quest3: string;
 }
-const SignupPage = (props: any) => {
+const SignupPageTenant = (props: any) => {
     const [password, setPassword] = useState("")
     const [passwordAgain, setPasswordAgain] = useState("")
     const [formatted_address, setFormattedAddress] = useState("")
@@ -32,14 +34,14 @@ const SignupPage = (props: any) => {
         handleSubmit,
         formState: { errors },
     } = methods;
-    const { signUp } = useAuth();
+    const { signUpAsTenant } = useAuth();
     const router = useRouter();
 
     const onSubmit = async (data: SignupType) => {
         try {
-            await signUp(data.email, data.password, data.name, data.prename, data.birthday, formatted_address, place_id);
+            await signUpAsTenant(data.email, data.password, data.name, data.prename, data.birthday, formatted_address, place_id, data.quest1);
             toast.success("Erfolgreich registriert");
-            if(props.site) {
+            if (props.site) {
                 router.push("/")
             }
         } catch (error: any) {
@@ -99,6 +101,23 @@ const SignupPage = (props: any) => {
                         </div>
                         <div>
                             <div className="relative mt-1 rounded-none shadow-sm">
+                                <Autocomplete apiKey={"AIzaSyCY17WLFDKPuYBIl3tzEQ0AWnQ9QFmEZwU"}
+                                    id="address"
+                                    onPlaceSelected={(place) => {
+                                        setFormattedAddress(place.formatted_address)
+                                        setPlaceId(place.place_id)
+                                    }}
+                                    options={{
+                                        types: ['address'],//oder "street_address" weil ist bis jetzt ohne nr siehe https://developers.google.com/maps/documentation/places/web-service/autocomplete
+                                        componentRestrictions: { country: "de" },
+                                    }}
+                                    className="block w-full ring-1 ring-gray-300 h-9 rounded-none border-gray-300 pl-2 pr-12 focus:border-green-600 focus:ring-green-600 sm:text-sm transition"
+                                    placeholder="Rechnungsadresse"
+                                />
+                            </div>
+                        </div>
+                        <div>
+                            <div className="relative mt-1 rounded-none shadow-sm">
                                 <input
                                     type="password"
                                     {...register("password", { required: "Ihr Passwort wird zur Registrierung benötigt." })}
@@ -115,7 +134,7 @@ const SignupPage = (props: any) => {
                                     {...register("password_confirm", { required: "Verify your password", })}
                                     id="password2"
                                     className="block w-full rounded-none border-gray-300 pl-2 pr-12 focus:border-green-600 focus:ring-green-600 sm:text-sm transition"
-                                    placeholder="Passwort"
+                                    placeholder="Passwort wiederholen"
                                     onChange={e => setPasswordAgain(e.target.value)}
                                 />
                             </div>
@@ -134,28 +153,52 @@ const SignupPage = (props: any) => {
                                 match: "Die Passwörter müssen übereinstimmen.",
                             }}
                         />
-
-                        <div>
+                    </div>
+                    <div>
                             <div className="relative mt-1 rounded-none shadow-sm">
-                                <Autocomplete apiKey={"AIzaSyCY17WLFDKPuYBIl3tzEQ0AWnQ9QFmEZwU"}
-                                    id="address"
-                                    onPlaceSelected={(place) => {
-                                        setFormattedAddress(place.formatted_address)
-                                        setPlaceId(place.place_id)
-                                    }}
-                                    options={{
-                                        types: ['address'],//oder "street_address" weil ist bis jetzt ohne nr siehe https://developers.google.com/maps/documentation/places/web-service/autocomplete
-                                        componentRestrictions: { country: "de" },
-                                    }}
-                                    className="block w-full ring-1 ring-gray-300 h-9 rounded-none border-gray-300 pl-2 pr-12 focus:border-green-600 focus:ring-green-600 sm:text-sm transition"
-                                    placeholder="Adresse"
-                                />
+                                <div>
+                                    <textarea 
+                                        rows={4}
+                                        {...register("quest1", { required: "Die Frage muss beantwortet werden" })}
+                                        name="quest1"
+                                        id="quest1"
+                                        className="form-input block w-full sm:text-sm border-gray-300"
+                                        placeholder="Frage 1"
+                                        defaultValue={''}/>
+                                </div>                            
                             </div>
                         </div>
-                    </div>
+                        <div>
+                            <div className="relative mt-1 rounded-none shadow-sm">
+                                <div>
+                                    <textarea 
+                                        rows={4}
+                                        {...register("quest2", { required: "Die Frage muss beantwortet werden" })}
+                                        name="quest2"
+                                        id="quest2"
+                                        className="form-input block w-full sm:text-sm border-gray-300"
+                                        placeholder="Frage 2"
+                                        defaultValue={''}/>
+                                </div>                            
+                            </div>
+                        </div>
+                        <div>
+                            <div className="relative mt-1 rounded-none shadow-sm">
+                                <div>
+                                    <textarea 
+                                        rows={4}
+                                        {...register("quest3", { required: "Die Frage muss beantwortet werden" })}
+                                        name="quest3"
+                                        id="quest3"
+                                        className="form-input block w-full sm:text-sm border-gray-300"
+                                        placeholder="Frage 3"
+                                        defaultValue={''}/>
+                                </div>                            
+                            </div>
+                        </div>
                     <div className="mt-2">
                         <button id="btnLogin" type="submit" className='w-full text-white px-4 py-2 text-base font-medium rounded-none bg-green-600 hover:bg-green-500 transition'>
-                            Registrieren &rarr;
+                            Als Mieter Registrieren &rarr;
                         </button>
                     </div>
                 </form>
@@ -164,4 +207,4 @@ const SignupPage = (props: any) => {
     );
 };
 
-export default SignupPage;
+export default SignupPageTenant;

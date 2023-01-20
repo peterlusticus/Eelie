@@ -4,7 +4,7 @@ import DropDown from "../../components/bookings/dropDown";
 import StepsForBooking from "../../components/bookings/steps";
 import FormContainer from "../../components/form/formContainer";
 import FormSection from "../../components/form/formSection";
-import { betriebssysteme, bookingTimes, browser, geraete, kommunikationsapplikationen, paymentMethods, personNumber, priceItems, radiusInKm, sortItems, suffix } from "../../components/data/data";
+import { betriebssysteme, bookingTimes, browser, geraete, kommunikationsapplikationen, paymentMethods, suffix } from "../../components/data/data";
 import FormItem from "../../components/form/formItem";
 import FormContainerEnd from "../../components/form/formContainerEnd";
 import { auth, db } from "../../config/firebase";
@@ -16,7 +16,7 @@ import Login from "../../components/login";
 import Textarea from "../../components/bookings/textarea";
 import { standard } from "../../components/data/data";
 import { uuidv4 } from "@firebase/util";
-import { faCalendarWeek, faPersonDress, faClock, faLocationDot, faLocationCrosshairs, faPerson, faEuro, faEuroSign, faSort } from "@fortawesome/free-solid-svg-icons";
+import { faCalendarWeek, faCheck, faClock } from "@fortawesome/free-solid-svg-icons";
 import Head from "next/head";
 import BringYourOwnDevice from "../../components/bookings/byod";
 import { Transition } from "@headlessui/react";
@@ -27,9 +27,6 @@ import { toast } from "react-toastify";
 //import Lottie from 'react-lottie';
 import animationData from '../../lotties/check.json';
 import { send } from "@emailjs/browser";
-import Autocomplete from "react-google-autocomplete";
-import AppartmentList from "../../components/appartments/appartmentList";
-
 
 type Obj = { [key: string]: [key: [key: string] | string] | string }
 const booking: Obj = {}
@@ -39,7 +36,7 @@ export const setBookingValue = (value: any, prop: any) => {
 }
 
 
-export default function NewBooking() {
+export default function NewAppartment() {
     const [allBookings, setAllBookings] = useState(Object);
     const [currentStep, setCurrentStep] = useState(1);
     const [workingPlaceType, setWorkingPlaceType] = useState(0);
@@ -70,6 +67,7 @@ export default function NewBooking() {
 
     //Frontend Logik
     const showNextButton = () => {
+        console.log(booking["Geraet1"])
         if (workingPlaceType == 1 && !byod1) return true;
         else if (workingPlaceType == 2 && !byod1 && !byod2) return true;
         else if (workingPlaceType == 1 && byod1 && geraet1 && bs1) return true
@@ -214,56 +212,37 @@ export default function NewBooking() {
                             </div>
                             {
                                 currentStep == 1 &&
-                                <FormContainer title="Ort und Zeitraum wählen">
-                                    <FormSection>
-                                        <FormItem width="1/2" title="Ort" icon={faLocationDot}>
-                                            <Autocomplete apiKey={"AIzaSyCY17WLFDKPuYBIl3tzEQ0AWnQ9QFmEZwU"}
-                                                    id="address"
-                                                    onPlaceSelected={(place) => {
-                                                        console.log(place)
-                                                    }}
-                                                    options={{
-                                                        types: ['(cities)'],//oder "street_address" weil ist bis jetzt ohne nr siehe https://developers.google.com/maps/documentation/places/web-service/autocomplete
-                                                        componentRestrictions: { country: "de" },
-                                                    }}
-                                                    className="block w-full ring-1 ring-gray-300 h-9 rounded-none border-gray-300 pl-2 pr-12 focus:border-green-600 focus:ring-green-600 sm:text-sm transition"
-                                                    placeholder="Ort eingeben"
-                                                />
-                                        </FormItem>
-                                        <FormItem width="1/4" title="Umkreis" icon={faLocationCrosshairs}>
-                                            <DropDown title="in km" items={radiusInKm} FirebaseKey="Endzeit" />
-                                        </FormItem>
-                                        <FormItem width="1/4" title="Personen" icon={faPersonDress}>
-                                            <DropDown title="Anzahl" items={personNumber} FirebaseKey="Endzeit" />
-                                        </FormItem>
-                                    </FormSection>
+                                <FormContainer title="Zeitraum wählen">
                                     <FormSection>
                                         <FormItem width="1/2" title="Zeitraum" icon={faCalendarWeek}>
                                             <DateTimeRangePicker setIsValid={setDateIsValid} />
                                         </FormItem>
+                                        <FormItem width="1/4" title="Zeit von" icon={faClock}>
+                                            <DropDown title="Startzeit" items={bookingTimes} FirebaseKey="Startzeit" />
+                                        </FormItem>
+                                        <FormItem width="1/4" title="Zeit bis" icon={faClock}>
+                                            <DropDown title="Endzeit" items={bookingTimes} FirebaseKey="Endzeit" />
+                                        </FormItem>
+                                        <FormItem width="1/4">
+                                            {dateIsValid && <button className="button-primary w-full mt-8" onClick={() => setCurrentStep(currentStep + 1)} >Jetzt suchen &rarr;</button>}
+                                        </FormItem>
                                     </FormSection>
-                                    <FormContainerEnd>
-                                        {dateIsValid && <button className="button-primary w-full" onClick={() => setCurrentStep(currentStep + 1)} >Jetzt suchen &rarr;</button>}
-                                    </FormContainerEnd>
                                 </FormContainer>
 
                             }
                             {
                                 currentStep == 2 &&
-                                <FormContainer title="12 Wohngemeinschaften in Dresden gefunden">
+                                <FormContainer title="Arbeitsplatztyp wählen">
                                     <FormSection>
-                                    <FormItem width="1/2" title="Sortieren nach" icon={faSort}>
-                                            <DropDown title="sortieren" items={sortItems} FirebaseKey="Endzeit" />
+                                        <FormItem width="1/2">
+                                            <button disabled={validateWorkPlaceType(1)} className={"button-select " + (workingPlaceType == 1 ? "background-green" : "bg-gray-100 hover:bg-gray-200")} onClick={() => handleSetWorkingPlaceType(1)}><Image src="/singleWorkplace.svg" alt="" width={32} height={32} />Einzelarbeitsplatz</button>
                                         </FormItem>
-                                        <FormItem width="1/4" title="Mietzuschlag" icon={faEuro}>
-                                            <DropDown title="Preis" items={priceItems} FirebaseKey="Endzeit" />
+                                        <FormItem width="1/2">
+                                            <button disabled={validateWorkPlaceType(2)} className={"button-select " + (workingPlaceType == 2 ? "background-green" : "bg-gray-100 hover:bg-gray-200")} onClick={() => handleSetWorkingPlaceType(2)}><Image src="/doubleWorkplace.svg" alt="" width={32} height={32} />Doppelarbeitsplatz</button>
                                         </FormItem>
-                                    </FormSection>
-                                    <FormSection>
-                                    <AppartmentList></AppartmentList>
                                     </FormSection>
                                     <FormContainerEnd>
-                                        <button className="button-primary w-full" onClick={() => setCurrentStep(currentStep + 1)} >Weiter &rarr;</button>
+                                        {workingPlaceType != 0 ? <button className="button-primary w-full" onClick={() => setCurrentStep(currentStep + 1)} >Weiter &rarr;</button> : ""}
                                     </FormContainerEnd>
                                 </FormContainer>
                             }

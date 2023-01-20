@@ -5,8 +5,8 @@ import { faBuildingColumns, faCreditCard, faDesktop, faLaptop, faMoneyBill, faSe
 export const suffix = "| Bad Erzland GZ"
 
 export const bookingSteps = [
-  { id: '1', name: 'Zeitraum', href: '#' },
-  { id: '2', name: 'Arbeitsplatztyp', href: '#' },
+  { id: '1', name: 'Suche', href: '#' },
+  { id: '2', name: 'Suchergebnisse', href: '#' },
   { id: '3', name: 'Konfiguration', href: '#' },
   { id: '4', name: 'Anmelden oder Registrieren', href: '#' },
   { id: '5', name: 'Ihre Daten', href: '#' },
@@ -45,18 +45,10 @@ export const paymentMethods = [
   { id: '3', title: "Überweisung", description: "Vorkasse per Überweisung", }
 ]
 
-export const bookingTimes = getTimeInSteps(new Date("1970-01-01T08:00:00.00"), new Date("1970-01-01T20:00:00.00"), 15)
+export const radiusInKm = ["5 km","10 km","20 km","50 km","100 km","200 km"]
 
-function getTimeInSteps(startTime: Date, endTime: Date, steps: number) {
+export const personNumber = ["1","2","3","4","5"]
 
-  let finalTime = startTime;
-  let times: string[] = [];
-  let timeDiff: number = (endTime.getHours() - startTime.getHours()) * 60 + (endTime.getMinutes() - startTime.getMinutes());
+export const sortItems = ["Entfernung","Bewertungen","Mietzuschlag","Alphabetisch"]
 
-  for (let i = 0; i < (timeDiff / steps); i++) {
-    finalTime = new Date(finalTime.getTime() + (steps * 60 * 1000));
-    times.push(finalTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
-  }
-
-  return times;
-}
+export const priceItems = ["beliebig","<50€","<100€","<150€","<200€","<250€","<300€","<400€","<500€","<600€","<700€","<800€","<900€","<1.000€","<1.200€","<1.500€","<2000€","<3000€",">3000€"]
