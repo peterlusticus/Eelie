@@ -42,29 +42,40 @@ const applications = [
 
 export default function AppartmentList(propss: any) {
   return (
-    <div className="bg-white shadow overflow-hidden  w-full">
-      <ul role="list" className="divide-y divide-gray-200">
+    <div className="bg-white overflow-hidden  w-full">
+      <ul role="list">
         {applications.map((application) => (
-          <li key={application.applicant.email} className=" space-y-10">
+          <li key={application.applicant.email} className="border rounded mb-4">
             <a href={application.href} className="block hover:bg-gray-50">
               <div className="flex items-center px-4 py-4 sm:px-6">
                 <div className="min-w-0 flex-1 flex ">
                   <div className="flex-shrink-0">
-                    <img className="h-40 w-40 rounded" src={application.applicant.imageUrl} alt="" />
+                    <img className="h-80 w-80 rounded" src={application.applicant.imageUrl} alt="" />
                   </div>
                   <div className="min-w-0 flex-1 px-4 md:grid md:grid-cols-2 md:gap-4">
                     <div>
                       <p className="text-sm font-medium text-indigo-600 truncate">{application.applicant.name}</p>
-                      <p className="mt-2 flex items-center text-sm text-gray-500">
+                      <p className="mt-2 flex text-sm text-gray-500">
                         <EnvelopeIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" aria-hidden="true" />
-                        <span className="truncate">{application.applicant.email}</span>
+                        <span className="line-clamp-4">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</span>
                       </p>
+                      <p className="mt-2 flex text-sm text-gray-500">
+                        <EnvelopeIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" aria-hidden="true" />
+                        <span className="truncate">Kreischaer Straße 12, 01219 Dresden</span>
+                      </p>
+                      <p className="mt-2 flex text-sm text-gray-500">
+                        <EnvelopeIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" aria-hidden="true" />
+                        <span className="truncate">Putzen, Waschen, Einkaufen</span>
+                      </p>
+                      <div className='flex items-end'>
+                        <p className="mt-28 flex text-3xl font-bold">130,00 €</p>
+                        <p className="mt-28 flex text-xl pl-10">55,2 m²</p>
+                        <p className="mt-28 flex text-xl pl-10">2 Zimmer</p>
+                      </div>
+                      
                     </div>
                     <div className="hidden md:block">
-                      <div>
-                        <p className="text-sm text-gray-900">
-                          Applied on <time dateTime={application.date}>{application.dateFull}</time>
-                        </p>
+                      <div className='pt-3'>
                         <p className="mt-2 flex items-center text-sm text-gray-500">
                           <CheckCircleIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-green-400" aria-hidden="true" />
                           {application.stage}
