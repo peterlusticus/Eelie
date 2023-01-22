@@ -49,6 +49,8 @@ export const radiusInKm = ["5 km","10 km","20 km","50 km","100 km","200 km"]
 
 export const personNumber = ["1","2","3","4","5"]
 
+export const bookingTimes = ["1","2","3","4","5"]
+
 export const sortItems = ["Entfernung","Bewertungen","Mietzuschlag","Alphabetisch"]
 
 export const priceItems = ["beliebig","<50€","<100€","<150€","<200€","<250€","<300€","<400€","<500€","<600€","<700€","<800€","<900€","<1.000€","<1.200€","<1.500€","<2000€","<3000€",">3000€"]
