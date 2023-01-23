@@ -33,15 +33,13 @@ import AppartmentList from "../../components/appartments/appartmentList";
 
 type Obj = { [key: string]: [key: [key: string] | string] | string }
 const booking: Obj = {}
-
+export let currentStepp = 1
 export const setBookingValue = (value: any, prop: any) => {
     booking[prop] = value
-}
-
+} 
 
 export default function NewBooking() {
     const [allBookings, setAllBookings] = useState(Object);
-    const [currentStep, setCurrentStep] = useState(1);
     const [workingPlaceType, setWorkingPlaceType] = useState(0);
     const [byod1, setByod1] = useState(false);
     const [byod2, setByod2] = useState(false);
@@ -51,7 +49,7 @@ export default function NewBooking() {
     const [bs2, setBs2] = useState(null);
     const [payment, setPayment] = useState(null)
     const [dateIsValid, setDateIsValid] = useState(false)
-
+    const [currentStep, setCurrentStep] = useState(1);
     const bookingId = uuidv4()
     const uid = auth.currentUser == null ? "" : auth.currentUser.uid;
 
@@ -260,11 +258,9 @@ export default function NewBooking() {
                                         </FormItem>
                                     </FormSection>
                                     <FormSection>
-                                    <AppartmentList></AppartmentList>
+                                    <AppartmentList nextStep={() => setCurrentStep(currentStep + 1)}></AppartmentList>
                                     </FormSection>
-                                    <FormContainerEnd>
-                                        <button className="button-primary w-full" onClick={() => setCurrentStep(currentStep + 1)} >Weiter &rarr;</button>
-                                    </FormContainerEnd>
+                                   
                                 </FormContainer>
                             }
                             {

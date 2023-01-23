@@ -40,13 +40,13 @@ const applications = [
   },
 ]
 
-export default function AppartmentList(propss: any) {
+export default function AppartmentList(props: any) {
   return (
     <div className="bg-white overflow-hidden  w-full">
       <ul role="list">
         {applications.map((application) => (
-          <li key={application.applicant.email} className="border rounded mb-4">
-            <a href={application.href} className="block hover:bg-gray-50">
+          <li key={application.applicant.email} className="border rounded mb-6">
+            <a onClick={props.nextStep} className="block hover:bg-gray-50 cursor-pointer">
               <div className="flex items-center px-4 py-4 sm:px-6">
                 <div className="min-w-0 flex-1 flex ">
                   <div className="flex-shrink-0">
