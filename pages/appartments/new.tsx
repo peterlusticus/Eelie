@@ -201,7 +201,7 @@ export default function NewAppartment() {
             </Head>
             <BookingContainer>
                 <div className="flex justify-center mx-auto">
-                    <div className="grow max-w-7xl px-4 sm:px-6 ">
+                    <div className="grow max-w-6xl px-4 sm:px-6 ">
                         <div>
                             <div className="py-4">
                                 {

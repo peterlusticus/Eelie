@@ -51,6 +51,6 @@ export const personNumber = ["1","2","3","4","5"]
 
 export const bookingTimes = ["1","2","3","4","5"]
 
-export const sortItems = ["Entfernung","Bewertungen","Mietzuschlag","Alphabetisch"]
+export const sortItems = ["Entfernung zum Zentrum","Bewertungen","Mietzuschlag","Alphabetisch"]
 
-export const priceItems = ["beliebig","<50€","<100€","<150€","<200€","<250€","<300€","<400€","<500€","<600€","<700€","<800€","<900€","<1.000€","<1.200€","<1.500€","<2000€","<3000€",">3000€"]
+export const priceItems = ["beliebig","<50€","50-100€","100-150€","150-200€","200-250€","250-300€","300-400€","400-500€","500-600€","600-700€","700-800€","800-900€","900-1.000€","1.000-1.200€","1200-1.500€","1500-2000€","2000-3000€",">3000€"]

@@ -1,5 +1,5 @@
 /* This example requires Tailwind CSS v2.0+ */
-import { CheckCircleIcon, ChevronDoubleRightIcon, ChevronRightIcon, EnvelopeIcon} from '@heroicons/react/20/solid'
+import { CheckCircleIcon, ChevronDoubleRightIcon, ChevronRightIcon, EnvelopeIcon, HeartIcon, MapPinIcon} from '@heroicons/react/20/solid'
 
 const applications = [
   {
@@ -7,7 +7,7 @@ const applications = [
       name: 'Ricardo Cooper',
       email: 'ricardo.cooper@example.com',
       imageUrl:
-        'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+        'http://eelie.de/img/portal-1.png',
     },
     date: '2020-01-07',
     dateFull: 'January 7, 2020',
@@ -19,7 +19,7 @@ const applications = [
       name: 'Kristen Ramos',
       email: 'kristen.ramos@example.com',
       imageUrl:
-        'https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+        'http://eelie.de/img/portal-2.png',
     },
     date: '2020-01-07',
     dateFull: 'January 7, 2020',
@@ -31,7 +31,7 @@ const applications = [
       name: 'Ted Fox',
       email: 'ted.fox@example.com',
       imageUrl:
-        'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+        'http://eelie.de/img/portal-3.png',
     },
     date: '2020-01-07',
     dateFull: 'January 7, 2020',
@@ -52,19 +52,19 @@ export default function AppartmentList(propss: any) {
                   <div className="flex-shrink-0">
                     <img className="h-80 w-80 rounded" src={application.applicant.imageUrl} alt="" />
                   </div>
-                  <div className="min-w-0 flex-1 px-4 md:grid md:grid-cols-2 md:gap-4">
+                  <div className="min-w-0 flex-1 px-4 md:grid md:grid-cols-1 md:gap-4">
                     <div>
-                      <p className="text-sm font-medium text-indigo-600 truncate">{application.applicant.name}</p>
+                      <p className="text-2xl font-bold truncate">{application.applicant.name}</p>
                       <p className="mt-2 flex text-sm text-gray-500">
                         <EnvelopeIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" aria-hidden="true" />
                         <span className="line-clamp-4">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</span>
                       </p>
                       <p className="mt-2 flex text-sm text-gray-500">
-                        <EnvelopeIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" aria-hidden="true" />
+                        <MapPinIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" aria-hidden="true" />
                         <span className="truncate">Kreischaer Straße 12, 01219 Dresden</span>
                       </p>
                       <p className="mt-2 flex text-sm text-gray-500">
-                        <EnvelopeIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" aria-hidden="true" />
+                        <HeartIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" aria-hidden="true" />
                         <span className="truncate">Putzen, Waschen, Einkaufen</span>
                       </p>
                       <div className='flex items-end'>
@@ -74,14 +74,7 @@ export default function AppartmentList(propss: any) {
                       </div>
                       
                     </div>
-                    <div className="hidden md:block">
-                      <div className='pt-3'>
-                        <p className="mt-2 flex items-center text-sm text-gray-500">
-                          <CheckCircleIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-green-400" aria-hidden="true" />
-                          {application.stage}
-                        </p>
-                      </div>
-                    </div>
+                    
                   </div>
                 </div>
                 <div>
